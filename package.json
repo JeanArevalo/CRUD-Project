@@ -1,0 +1,18 @@
+{
+  "name": "crud-node-project",
+  "version": "0.1.0",
+  "description": "Proyecto (Create - Read - Update - Delete) del curso Nodejs desde cero de Sergie Code Youtube.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/app.js"
+  },
+  "author": "Jean Arevalo",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "env-var": "^7.4.1",
+    "express": "^4.19.2",
+    "nodemon": "^3.1.0"
+  }
+}
