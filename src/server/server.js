@@ -1,24 +1,28 @@
 const express = require('express');
-const path = require('path');
+const { envs } = require('../config/env');
+const bodyParser = require('body-parser');
+const clubRoutes = require('../routes/club.routes');
+const mongoose = require('mongoose');
 
-const startServer = (options) => {
-    const { port, public_path = 'public' } = options
+const startServer = (puerto) => {
+    const port = puerto;
 
     // Inicializar Express
     const app = express()
 
-    // Para poder usar middlewares
-    app.use(express.static(public_path)); // Contenido estático que ponemos dispnible.
+    // Middleware para Parsear el body
+    app.use(bodyParser.json())
 
-    //  El '*' significa cualquier pedido de ruta sobre nuestro html
-    app.get('*', (req, res) => {
-        const indexPath = path.join(_dirname + `../../../${public_path}/index.html`); // Junta el path y lo normaliza
-        res.sendFile(indexPath);
-    });
+    // Conectar la BD
+    mongoose.connect(process.env.MONGO_URL, { dbname: process.env.MONGO_DB_NAME })
+    const db = mongoose.connection;
+
+    // Middleware para utilizar las rutas de Clubs
+    app.use('/clubs', clubRoutes)
 
     // Poner a escuchar en el puerto determinado
     app.listen(port, () => {
-        console.log(`Escuchando en el puerto ${port}.`);
+        console.log(`Servidor iniciado en el puerto ${port}.`);
     });
 }
 
