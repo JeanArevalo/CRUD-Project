@@ -1,19 +1,13 @@
 version: '3.8'
+
 services:
-  mongo:
-    image: 'mongo:7.0.5'
-    ports:
-      - 27018:27017
-    volumes:
-      - my-data:/var/lib/mongodb/data
-  mongo-express:
-    image: 'mongo-express:1.0.2'
-    ports:
-      - 8082:8081
+  mongo-db:
+    image: mongo:7.0.5
+    restart: always
     environment:
-      ME_CONFIG_BASICAUTH_USERNAME: username
-      ME_CONFIG_BASICAUTH_PASSWORD: password
-volumes:
-  my-data:
-    
-    
+      ME_CONFIG_BASICAUTH_USERNAME: &{MONGO_USER}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_PASS}
+    volumes:
+      - ./mongo:/data/db
+    ports:
+      - 27017:27017
